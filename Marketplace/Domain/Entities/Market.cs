@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Marketplace.Domain.Entities
 {
-    public class Marketplace
+    public class Market
     {
         public List<User> Users { get; private set; }
         public List<Product> Products { get; private set; }
@@ -15,7 +15,7 @@ namespace Marketplace.Domain.Entities
         public double ProvisionIncome { get; private set; }
         
 
-        public Marketplace()
+        public Market()
         {
             Users = new List<User>();
             Products = new List<Product>();
@@ -27,5 +27,7 @@ namespace Marketplace.Domain.Entities
         public void RegisterUser(User user) => Users.Add(user);
 
         public void DeleteUser(User user) => Users.Remove(user);
+
+
     }
 }

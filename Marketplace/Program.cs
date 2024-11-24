@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Marketplace.Domain.Entities;
+using Marketplace.Presentation;
 
 namespace Marketplace
 {
@@ -11,7 +12,15 @@ namespace Marketplace
     {
         static void Main()
         {
-            var marketplace = new Marketplace.Domain.Entities.Marketplace();
+            var marketplace = new Market();
+            var UI = new UserInterface();
+
+            var quit = false;
+            while (!quit)
+            {
+                if (UI.MainMenu(marketplace) == 0)
+                    quit = true;
+            }
         }
     }
 }
