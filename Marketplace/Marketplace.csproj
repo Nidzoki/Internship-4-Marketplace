@@ -50,6 +50,7 @@
     <Compile Include="Domain\Entities\Seller.cs" />
     <Compile Include="Domain\Entities\Transaction.cs" />
     <Compile Include="Domain\Entities\User.cs" />
+    <Compile Include="Presentation\GetUserInput.cs" />
     <Compile Include="Presentation\Printer.cs" />
     <Compile Include="Presentation\UserInterface.cs" />
     <Compile Include="Program.cs" />

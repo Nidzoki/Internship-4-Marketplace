@@ -12,6 +12,9 @@ namespace Marketplace
     {
         static void Main()
         {
+            Console.InputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
+
             var marketplace = new Market();
             var UI = new UserInterface();
 
