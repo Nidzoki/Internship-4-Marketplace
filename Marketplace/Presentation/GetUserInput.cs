@@ -196,6 +196,5 @@ namespace Marketplace.Presentation
             return marketplace.Users.Find(x => x.Username == username && x.Email == email);
         }
 
-        
     }
 }

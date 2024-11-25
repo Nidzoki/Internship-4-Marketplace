@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marketplace.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,33 @@ namespace Marketplace.Presentation
         {
             Console.Clear();
             Console.WriteLine("\n REGISTER MENU\n\n 1. Register as customer\n 2. Register as seller\n 3. Back");
+            Console.Write("\n Your input: ");
+        }
+
+        public static void PrintSellerView(string sellerName)
+        {
+            Console.Clear();
+            Console.WriteLine($"\n Hello, {sellerName}!\n" +
+                $"\n 1. Add new product to sell" +
+                $"\n 2. Display my products" +
+                $"\n 3. Display profit" +
+                $"\n 4. Display sold products by category" +
+                $"\n 5. Display profit in selected time interval" +
+                $"\n 6. Log out");
+            Console.Write("\n Your input: ");
+        }
+
+        public static void PrintCustomerView(Customer profile)
+        {
+            Console.Clear();
+            Console.WriteLine($"\n Hello, {profile.Username}!\n\n Account ballance: {profile.Balance}" +
+                $"\n 1. Display all products for sale" +
+                $"\n 2. Buy product using ID" +
+                $"\n 3. Return product" +
+                $"\n 4. Add product to favorites" +
+                $"\n 5. Display shopping history" +
+                $"\n 6. Display favorite products" +
+                $"\n 7. Log out");
             Console.Write("\n Your input: ");
         }
     }

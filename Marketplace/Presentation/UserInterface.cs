@@ -14,6 +14,8 @@ namespace Marketplace.Presentation
     {
         public delegate int MyDelegate(Market argument);
 
+        public delegate int MyProfileDelegate(Market argument, User user);
+
         public int MainMenu(Market marketplace)
         {
             Dictionary<string, MyDelegate> mainMenuOptionHandler = new Dictionary<string, MyDelegate>()
@@ -116,29 +118,184 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        private int LogIn(Market marketplace)
+        public int LogIn(Market marketplace)
         {   
             var profile = GetUserInput.LogInUser(marketplace);
             if(profile == null)
                 return 0;
             if (profile is Customer)
-                DisplayCustomerAccount(profile as Customer);
+                while(DisplayCustomerAccount(profile as Customer, marketplace) != 0);
             else
-                DisplaySellerAccount(profile as Seller);
+                while(DisplaySellerAccount(profile as Seller, marketplace) != 0);
 
             return 0;
         }
 
-        public int DisplaySellerAccount(Seller profile)
+        public int DisplaySellerAccount(Seller profile, Market marketplace)
         {
-            Console.WriteLine($" Hello, {profile.Username}! Press any key to continue...");
+            Dictionary<string, MyProfileDelegate> sellerAccountOptionHandler = new Dictionary<string, MyProfileDelegate>()
+            {
+                {"1", AddProduct },
+                {"2", DisplaySellerProducts },
+                {"3", DisplayProfit },
+                {"4", DisplaySoldProductsByCategory },
+                {"5", DisplayProfitInTimeInterval }
+            };
+
+            var askForOption = true;
+            var option = string.Empty;
+
+            while (askForOption)
+            {
+                Printer.PrintSellerView(profile.Username);
+                option = Console.ReadLine().Trim();
+
+                if (option == "6")
+                    return 0;
+
+                if (!sellerAccountOptionHandler.Keys.Contains(option))
+                {
+                    Printer.PrintInputError();
+                    return -1;
+                }
+                askForOption = false;
+            }
+            var runChosenMenu = true;
+            do
+            {
+                if (sellerAccountOptionHandler[option].Invoke(marketplace, profile) == 0)
+                    runChosenMenu = false;
+            }
+            while (runChosenMenu);
+
+            return 1;
+        }
+
+        public int DisplayProfitInTimeInterval(Market argument, User seller)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
             Console.ReadKey();
             return 0;
         }
 
-        public int DisplayCustomerAccount(Customer profile)
+        public int DisplaySoldProductsByCategory(Market argument, User seller)
         {
-            Console.WriteLine($" Hello, {profile.Username}!\n Balance: {profile.Balance} Press any key to continue...");
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int DisplayProfit(Market argument, User seller)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int DisplaySellerProducts(Market argument, User seller)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int AddProduct(Market argument, User seller)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int DisplayCustomerAccount(Customer profile, Market marketplace)
+        {
+            Dictionary<string, MyProfileDelegate> customerAccountOptionHandler = new Dictionary<string, MyProfileDelegate>()
+            {
+                {"1", DisplayAllProducts },
+                {"2", BuyProduct },
+                {"3", ReturnProduct },
+                {"4", AddToFavorites },
+                {"5", DisplayShoppingHistory },
+                {"6", DisplayFavorites }
+            };
+
+            var askForOption = true;
+            var option = string.Empty;
+
+            while (askForOption)
+            {
+                Printer.PrintCustomerView(profile);
+                option = Console.ReadLine().Trim();
+
+                if (option == "7")
+                    return 0;
+
+                if (!customerAccountOptionHandler.Keys.Contains(option))
+                {
+                    Printer.PrintInputError();
+                    return -1;
+                }
+                askForOption = false;
+            }
+            var runChosenMenu = true;
+            do
+            {
+                if (customerAccountOptionHandler[option].Invoke(marketplace, profile) == 0)
+                    runChosenMenu = false;
+            }
+            while (runChosenMenu);
+
+            return 1;
+        }
+
+        public int DisplayFavorites(Market argument, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int DisplayShoppingHistory(Market argument, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int AddToFavorites(Market argument, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int ReturnProduct(Market argument, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int BuyProduct(Market argument, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int DisplayAllProducts(Market argument, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
             Console.ReadKey();
             return 0;
         }
