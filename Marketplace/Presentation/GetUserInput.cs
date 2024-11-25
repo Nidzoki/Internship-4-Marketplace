@@ -92,6 +92,66 @@ namespace Marketplace.Presentation
             return balance;
         }
 
+        public static string GetExistingEmail(Market marketplace)
+        {
+            var mail = string.Empty;
+            var askForMail = true;
+
+            while (askForMail)
+            {
+                Console.Write(" Enter your email or x to cancel: ");
+                mail = Console.ReadLine().Trim();
+
+                if (mail == "x")
+                    return null;
+
+                var valid = ValidateInput.ValidateEmail(mail);
+                var notTaken = ValidateInput.IsEmailAvailable(mail, marketplace);
+
+                if (valid && !notTaken)
+                    askForMail = false;
+                else
+                {
+                    Console.WriteLine(!valid
+                        ? "\n ERROR! Email not valid."
+                        : "\n ERROR! Email is not registered. Please log in using registered email or create new account.");
+                    Console.WriteLine("\n Press any key to continue...");
+                    Console.ReadKey();
+                }
+            }
+            return mail;
+        }
+        
+        private static string GetExistingUsername(Market marketplace)
+        {
+            var username = string.Empty;
+            var askForUsername = true;
+
+            while (askForUsername)
+            {
+                Console.Write(" Enter your username or x to cancel: ");
+                username = Console.ReadLine().Trim();
+
+                if (username == "x")
+                    return null;
+
+                var valid = ValidateInput.ValidateUsername(username);
+                var notTaken = ValidateInput.IsUsernameAvailable(username, marketplace);
+
+                if (valid && !notTaken)
+                    askForUsername = false;
+                else
+                {
+                    Console.WriteLine(!valid
+                        ? "\n ERROR! Username not valid. It has to be 3-20 characters long, and contain only letters, numbers and underscores."
+                        : "\n ERROR! Username not registered.");
+                    Console.WriteLine("\n Press any key to continue...");
+                    Console.ReadKey();
+                }
+            }
+            return username;
+        }
+
         // REGISTER SECTION
 
         public static Seller RegisterSeller(Market marketplace)
@@ -119,5 +179,23 @@ namespace Marketplace.Presentation
             double balance = GetBalance();
             return balance >= 0 ? new Customer(username, mail, balance) : null;
         }
+
+        // LOGIN SECTION
+
+        public static User LogInUser(Market marketplace)
+        {
+            Console.Clear();
+            Console.WriteLine("\n LOG IN\n\n");
+            var email = GetExistingEmail(marketplace);
+            if (email == null)
+                return null;
+            var username = GetExistingUsername(marketplace);
+            if (username == null)
+                return null;
+
+            return marketplace.Users.Find(x => x.Username == username && x.Email == email);
+        }
+
+        
     }
 }

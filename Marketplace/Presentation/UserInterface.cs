@@ -118,9 +118,27 @@ namespace Marketplace.Presentation
 
         private int LogIn(Market marketplace)
         {   
-            Console.Clear();
-            Console.WriteLine("\n LOG IN");
-            // implement it here
+            var profile = GetUserInput.LogInUser(marketplace);
+            if(profile == null)
+                return 0;
+            if (profile is Customer)
+                DisplayCustomerAccount(profile as Customer);
+            else
+                DisplaySellerAccount(profile as Seller);
+
+            return 0;
+        }
+
+        public int DisplaySellerAccount(Seller profile)
+        {
+            Console.WriteLine($" Hello, {profile.Username}! Press any key to continue...");
+            Console.ReadKey();
+            return 0;
+        }
+
+        public int DisplayCustomerAccount(Customer profile)
+        {
+            Console.WriteLine($" Hello, {profile.Username}!\n Balance: {profile.Balance} Press any key to continue...");
             Console.ReadKey();
             return 0;
         }

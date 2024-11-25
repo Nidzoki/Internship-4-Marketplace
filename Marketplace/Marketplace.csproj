@@ -54,7 +54,6 @@
     <Compile Include="Presentation\GetUserInput.cs" />
     <Compile Include="Presentation\Printer.cs" />
     <Compile Include="Presentation\UserInterface.cs" />
-    <Compile Include="Presentation\ValidateInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
