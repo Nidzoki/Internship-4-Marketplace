@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Marketplace.Domain.Entities;
+using Marketplace.Data.Entities;
 using Marketplace.Presentation;
 
 namespace Marketplace

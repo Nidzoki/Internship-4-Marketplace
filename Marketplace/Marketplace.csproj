@@ -43,13 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Entities\Customer.cs" />
-    <Compile Include="Domain\Entities\Market.cs" />
-    <Compile Include="Domain\Entities\Product.cs" />
-    <Compile Include="Domain\Entities\PromoCode.cs" />
-    <Compile Include="Domain\Entities\Seller.cs" />
-    <Compile Include="Domain\Entities\Transaction.cs" />
-    <Compile Include="Domain\Entities\User.cs" />
+    <Compile Include="Data\Entities\Customer.cs" />
+    <Compile Include="Data\Entities\Market.cs" />
+    <Compile Include="Data\Entities\Product.cs" />
+    <Compile Include="Data\Entities\PromoCode.cs" />
+    <Compile Include="Data\Entities\Seller.cs" />
+    <Compile Include="Data\Entities\Transaction.cs" />
+    <Compile Include="Data\Entities\User.cs" />
+    <Compile Include="Domain\Validation\ValidateInput.cs" />
     <Compile Include="Presentation\GetUserInput.cs" />
     <Compile Include="Presentation\Printer.cs" />
     <Compile Include="Presentation\UserInterface.cs" />
@@ -60,8 +61,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

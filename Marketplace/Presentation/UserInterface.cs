@@ -1,4 +1,4 @@
-﻿using Marketplace.Domain.Entities;
+﻿using Marketplace.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +51,7 @@ namespace Marketplace.Presentation
             return 1;
         }
 
-        private int RegisterMenu(Market marketplace)
+        public int RegisterMenu(Market marketplace)
         {
             Dictionary<string, MyDelegate> registerMenuOptionHandler = new Dictionary<string, MyDelegate>()
             {
@@ -88,7 +88,7 @@ namespace Marketplace.Presentation
             return 1;
         }
 
-        private int RegisterAsSeller(Market marketplace)
+        public int RegisterAsSeller(Market marketplace)
         {
             var sellerData = GetUserInput.RegisterSeller(marketplace);
 
@@ -102,12 +102,17 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        private int RegisterAsCostumer(Market marketplace)
+        public int RegisterAsCostumer(Market marketplace)
         {
-            Console.Clear();
-            Console.WriteLine("\n REGISTER AS CUSTOMER");
-            // implement it here
-            Console.ReadKey();
+            var customerData = GetUserInput.RegisterCustomer(marketplace);
+
+            if (customerData != null)
+            {
+                marketplace.Users.Add(customerData);
+                Console.Clear();
+                Console.WriteLine("\n REGISTER AS CUSTOMER\n\n Account successfully created!\n\n Press any key to continue...");
+                Console.ReadKey();
+            }
             return 0;
         }
 

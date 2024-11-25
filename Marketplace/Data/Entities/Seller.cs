@@ -1,11 +1,11 @@
-﻿using Marketplace.Domain.Entities;
+﻿using Marketplace.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Marketplace.Domain.Entities
+namespace Marketplace.Data.Entities
 {
     public class Seller : User
     {
