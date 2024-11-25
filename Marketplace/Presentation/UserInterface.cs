@@ -90,10 +90,15 @@ namespace Marketplace.Presentation
 
         private int RegisterAsSeller(Market marketplace)
         {
-            Console.Clear();
-            Console.WriteLine("\n REGISTER AS SELLER");
-            // implemet it here
-            Console.ReadKey();
+            var sellerData = GetUserInput.RegisterSeller(marketplace);
+
+            if (sellerData != null)
+            {
+                marketplace.Users.Add(sellerData);
+                Console.Clear();
+                Console.WriteLine("\n REGISTER AS SELLER\n\n Account successfully created!\n\n Press any key to continue...");
+                Console.ReadKey();
+            }
             return 0;
         }
 
