@@ -56,5 +56,16 @@ namespace Marketplace.Presentation
                 $"\n 7. Log out");
             Console.Write("\n Your input: ");
         }
+
+        public static void PrintProduct(Product product)
+        {
+            Console.WriteLine($" Name: {product.Name}" +
+                $"\n\tID: {product.GetProductId()}" +
+                $"\n\tCategory: {product.Category}" +
+                $"\n\tStatus: {product.Status}" +
+                $"\n\tPrice: {product.Status}" +
+                $"\n\tDescription: {product.Description}" +
+                $"\n\tReviews: {product.GetRating()} ({product.Reviews.Count})");
+        }
     }
 }

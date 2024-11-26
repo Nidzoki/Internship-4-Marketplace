@@ -5,11 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
 namespace Marketplace.Presentation
 {   
-
     public class UserInterface
     {
         public delegate int MyDelegate(Market argument);
@@ -131,6 +128,8 @@ namespace Marketplace.Presentation
             return 0;
         }
 
+        // SELLER SECTION
+
         public int DisplaySellerAccount(Seller profile, Market marketplace)
         {
             Dictionary<string, MyProfileDelegate> sellerAccountOptionHandler = new Dictionary<string, MyProfileDelegate>()
@@ -171,7 +170,7 @@ namespace Marketplace.Presentation
             return 1;
         }
 
-        public int DisplayProfitInTimeInterval(Market argument, User seller)
+        public int DisplayProfitInTimeInterval(Market marketplace, User seller)
         {
             Console.Clear();
             Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
@@ -179,7 +178,7 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        public int DisplaySoldProductsByCategory(Market argument, User seller)
+        public int DisplaySoldProductsByCategory(Market marketplace, User seller)
         {
             Console.Clear();
             Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
@@ -187,7 +186,7 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        public int DisplayProfit(Market argument, User seller)
+        public int DisplayProfit(Market marketplace, User seller)
         {
             Console.Clear();
             Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
@@ -195,21 +194,40 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        public int DisplaySellerProducts(Market argument, User seller)
+        public int DisplaySellerProducts(Market marketplace, User seller)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.WriteLine("\n YOUR PRODUCT LIST\n");
+            foreach(var product in marketplace.Products.Where(x => x.Seller == seller))
+            {
+                Printer.PrintProduct(product);
+                Console.WriteLine();
+            }
             Console.ReadKey();
             return 0;
         }
 
-        public int AddProduct(Market argument, User seller)
+        public int AddProduct(Market marketplace, User seller)
         {
-            Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
-            Console.ReadKey();
+            var newProduct = GetUserInput.GetNewProductData(seller as Seller);
+
+            if (newProduct != null)
+            {
+                marketplace.Products.Add(newProduct);
+                Console.Clear();
+                Console.WriteLine("\n Product creation succesfully completed.\n\n Press any key to continue...");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("\n Product creation abandoned.\n\n Press any key to continue...");
+                Console.ReadKey();
+            }
             return 0;
         }
+
+        // CUSTOMER SECTION
 
         public int DisplayCustomerAccount(Customer profile, Market marketplace)
         {
@@ -292,14 +310,17 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        public int DisplayAllProducts(Market argument, User user)
+        public int DisplayAllProducts(Market marketplace)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.WriteLine("\n YOUR PRODUCT LIST\n");
+            foreach (var product in marketplace.Products)
+            {
+                Printer.PrintProduct(product);
+                Console.WriteLine();
+            }
             Console.ReadKey();
             return 0;
         }
-
-        public int Exit() => 0;
     }
 }

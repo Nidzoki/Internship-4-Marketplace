@@ -1,4 +1,5 @@
 ﻿using Marketplace.Data.Entities;
+using Marketplace.Data.Enums;
 using Marketplace.Domain.Validation;
 using System;
 using System.Collections.Generic;
@@ -196,5 +197,99 @@ namespace Marketplace.Presentation
             return marketplace.Users.Find(x => x.Username == username && x.Email == email);
         }
 
+        // NEW PRODUCT DATA COLLECTION SECTION
+
+        public static Product GetNewProductData(Seller seller)
+        {
+            var name = GetNewProductName();
+            if (name == null) return null;
+
+            var description = GetNewProductDescription();
+            if (description == null) return null;
+
+            var price = GetNewProductPrice();
+            if (price < 0) return null;
+
+            var category = GetProductCategory();
+            if (category == null) return null;
+
+            return new Product(name, description, price, seller, (ProductCategory)category);
+        }
+
+        private static string GetNewProductName()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("\n Enter product name or x to cancel: ");
+                var productName = Console.ReadLine().Trim();
+
+                if (productName == "x")
+                    return null;
+
+                if (string.IsNullOrEmpty(productName) || productName.Length < 3)
+                {
+                    Console.WriteLine("\n Invalid product name. It has to contain at least 3 characters. Please try again.\n\n Press any key to continue...");
+                    Console.ReadKey();
+                }
+                return productName;
+            }
+        }
+
+        public static string GetNewProductDescription()
+        {
+            Console.Clear();
+            Console.Write("\n Enter product description or x to cancel: ");
+            var productDescription = Console.ReadLine().Trim();
+
+            return productDescription == "x" ? null: productDescription;
+        }
+
+        public static double GetNewProductPrice()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.Write("\n Enter product price or x to cancel: ");
+                var productPriceInput = Console.ReadLine().Trim();
+
+                if (productPriceInput == "x")
+                    return -1;
+
+                if (!double.TryParse(productPriceInput, out var productPrice) || productPrice < 0)
+                {
+                    Console.WriteLine("\n Invalid product price. It has to be greater or equal to zero. Please try again.\n\n Press any key to continue...");
+                    Console.ReadKey();
+                }
+                else
+                    return productPrice;
+            }
+        }
+
+        public static ProductCategory? GetProductCategory()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("\n CHOOSE PRODUCT CATEGORY\n");
+
+                var categories = Enum.GetValues(typeof(ProductCategory)).Cast<ProductCategory>().ToList();
+
+                for (int i = 0; i < categories.Count; i++)
+                    Console.WriteLine($"{i + 1}. {categories[i]}");
+
+                Console.Write("\n Enter product number or x to cancel: ");
+                var input = Console.ReadLine().Trim();
+
+                if (input == "x")
+                    return null;
+
+                if (int.TryParse(input, out int categoryNumber) && categoryNumber >= 1 && categoryNumber <= categories.Count)
+                    return categories[categoryNumber - 1];
+
+                Console.WriteLine("Invalid input. Please enter a number corresponding to a category.\n\n Press any key to try again...");
+                Console.ReadKey();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marketplace.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,31 +32,6 @@ namespace Marketplace.Data.Entities
 
         public Guid GetProductId() => Id;
 
-        public double GetRating() => Reviews.Average();
-    }
-
-    public enum ProductStatus
-    {
-        Available,
-        SoldOut
-    }
-
-    public enum ProductCategory
-    {
-        Electronics,
-        Clothing,
-        Books,
-        Sports,
-        Beauty,
-        Toys,
-        Health,
-        Jewelry,
-        Music,
-        Garden,
-        Food,
-        Tools,
-        Furniture,
-        Software,
-        Art
+        public double GetRating() => Reviews.Count == 0 ? 0 : Math.Round(Reviews.Average(), 2);
     }
 }
