@@ -28,6 +28,6 @@ namespace Marketplace.Data.Entities
 
         public void DeleteUser(User user) => Users.Remove(user);
 
-
+        public void TakeTransactionProvision(double income) => ProvisionIncome += income;
     }
 }

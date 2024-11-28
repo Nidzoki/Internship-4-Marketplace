@@ -63,9 +63,14 @@ namespace Marketplace.Presentation
                 $"\n\tID: {product.GetProductId()}" +
                 $"\n\tCategory: {product.Category}" +
                 $"\n\tStatus: {product.Status}" +
-                $"\n\tPrice: {product.Status}" +
+                $"\n\tPrice: {product.Price}" +
                 $"\n\tDescription: {product.Description}" +
                 $"\n\tReviews: {product.GetRating()} ({product.Reviews.Count})");
+        }
+
+        public static void PrintProductShort(Product product)
+        {
+            Console.WriteLine($" \tName: {product.Name} | Category: {product.Category} | Seller: {product.Seller.Username}\n");
         }
     }
 }

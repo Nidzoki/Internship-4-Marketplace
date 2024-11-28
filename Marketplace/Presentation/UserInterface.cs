@@ -1,4 +1,6 @@
 ﻿using Marketplace.Data.Entities;
+using Marketplace.Data.Enums;
+using Marketplace.Domain.TransactionManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -273,25 +275,83 @@ namespace Marketplace.Presentation
         public int DisplayFavorites(Market argument, User user)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.WriteLine("\n FAVORITE PRODUCTS\n");
+
+            if (((Customer)user).FavoriteProducts.Count == 0)
+            {
+                Console.WriteLine(" There is no products to display.\n\n Press any key to continue...");
+                Console.ReadKey();
+                return 0;
+            }
+
+            foreach (var product in ((Customer)user).FavoriteProducts)
+                Printer.PrintProductShort(product);
+
+            Console.WriteLine("\n Press any key to continue...");
             Console.ReadKey();
+
             return 0;
         }
 
         public int DisplayShoppingHistory(Market argument, User user)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.WriteLine("\n SHOPPING HISTORY\n");
+
+            if (((Customer)user).PurchasedProducts.Count == 0)
+            {
+                Console.WriteLine(" There is no products to display.\n\n Press any key to continue...");
+                Console.ReadKey();
+                return 0;
+            }
+
+            foreach (var product in ((Customer)user).PurchasedProducts)
+                Printer.PrintProductShort(product);
+
+            Console.WriteLine("\n Press any key to continue...");
             Console.ReadKey();
+
             return 0;
         }
 
-        public int AddToFavorites(Market argument, User user)
+        public int AddToFavorites(Market marketplace, User user)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
-            Console.ReadKey();
-            return 0;
+            Console.WriteLine("\n ADD TO FAVORITES\n\n");
+
+            var products = marketplace.Products.Where(x => x.Status == ProductStatus.Available).Except(((Customer)user).FavoriteProducts).ToList();
+
+            if (products.Count == 0)
+            {
+                Console.WriteLine(" There are no available products to add to favorites.");
+                Console.ReadKey();
+                return 0;
+            }
+
+            for (var i = 0; i < products.Count(); i++)
+                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n");
+
+            while (true)
+            {
+                Console.Write("\n Select an option to add to favorites or enter x to cancel: ");
+                string input = Console.ReadLine().Trim();
+
+                if (input.ToLower() == "x")
+                    return 0;
+
+                if (int.TryParse(input, out int selectedOption) && selectedOption > 0 && selectedOption <= products.Count)
+                {
+                    var selectedProduct = products[selectedOption - 1];
+                    ((Customer)user).FavoriteProducts.Add(selectedProduct);
+                    Console.WriteLine($"\nProduct '{selectedProduct.Name}' has been added to your favorites.");
+                    return 0;
+                }
+                else
+                    Console.WriteLine("Invalid selection. Please try again.");
+
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
         }
 
         public int ReturnProduct(Market argument, User user)
@@ -302,22 +362,58 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        public int BuyProduct(Market argument, User user)
+        public int BuyProduct(Market marketplace, User user)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
-            Console.ReadKey();
-            return 0;
+            Console.WriteLine("\n BUY PRODUCT\n\n");
+
+            var products = marketplace.Products.Where(x => x.Status == ProductStatus.Available).ToList();
+
+            if (products.Count == 0)
+            {
+                Console.WriteLine(" There are no available products to buy.");
+                Console.ReadKey();
+                return 0;
+            }
+
+            for (var i = 0; i < products.Count(); i++)
+                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n");
+
+            while (true)
+            {
+                Console.Write("\n Select a product to buy or enter x to cancel: ");
+                string input = Console.ReadLine().Trim();
+
+                if (input.ToLower() == "x")
+                    return 0;
+
+                if (int.TryParse(input, out int selectedOption) && selectedOption > 0 && selectedOption <= products.Count)
+                {
+                    var selectedProduct = products[selectedOption - 1];
+
+                    if (TransactionManager.CreateTransaction(marketplace, (Customer)user, selectedProduct, new PromoCode("", 10, ProductCategory.Food, DateTime.Now)))
+                        Console.WriteLine($"\nProduct '{selectedProduct.Name}' has been purchased.\n\n Press any key to continue...");
+                    else
+                        Console.WriteLine($" Insufficient balance to buy this product!\n\n Press any key to continue...");
+                    
+                    Console.ReadKey();
+                    return 0;
+                }
+                else
+                    Console.WriteLine("Invalid selection. Please try again.");
+
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
         }
 
-        public int DisplayAllProducts(Market marketplace)
+        public int DisplayAllProducts(Market marketplace, User user) // user is here to satisfy the delegate function
         {
             Console.Clear();
-            Console.WriteLine("\n YOUR PRODUCT LIST\n");
-            foreach (var product in marketplace.Products)
+            Console.WriteLine("\n ALL PRODUCTS LIST\n");
+            foreach (var product in marketplace.Products.Where(x => x.Status == ProductStatus.Available))
             {
                 Printer.PrintProduct(product);
-                Console.WriteLine();
             }
             Console.ReadKey();
             return 0;

@@ -11,16 +11,16 @@ namespace Marketplace.Data.Entities
         public Guid Id { get; set; }
         public Customer Costumer { get; set; }
         public Seller Seller { get; set; }
-        public Product Product { get; set; }
+        public Guid ProductId { get; set; }
         public PromoCode PromoCode { get; set; }
         public DateTime DateTime { get; set; }
 
-        public Transaction(Customer costumer, Seller seller, Product product, PromoCode promoCode, DateTime dateTime)
+        public Transaction(Customer costumer, Seller seller, Guid productId, PromoCode promoCode, DateTime dateTime)
         {
             Id = Guid.NewGuid();
             Costumer = costumer;
             Seller = seller;
-            Product = product;
+            ProductId = productId;
             PromoCode = promoCode;
             DateTime = dateTime;
         }

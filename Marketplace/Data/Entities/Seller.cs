@@ -10,30 +10,13 @@ namespace Marketplace.Data.Entities
     public class Seller : User
     {
         public List<Product> Products { get; set; }
+        public double Profit { get; private set; }
 
         public Seller(string ime, string email) : base(ime, email)
         {
             Products = new List<Product>();
         }
 
-        public void CreateProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveProduct(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateProduct(Product product, Product newData)
-        {
-            throw new NotImplementedException();
-        }
-
-        public double GetProfit()
-        {
-            throw new NotImplementedException();
-        }
+        public double GetProfit(double profit) => Profit += profit;
     }
 }
