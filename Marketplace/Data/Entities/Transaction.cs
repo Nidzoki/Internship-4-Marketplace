@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marketplace.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Marketplace.Data.Entities
         public Guid ProductId { get; set; }
         public PromoCode PromoCode { get; set; }
         public DateTime DateTime { get; set; }
+        public TransactionStatus Status { get; set; }
 
         public Transaction(Customer costumer, Seller seller, Guid productId, PromoCode promoCode, DateTime dateTime)
         {
@@ -23,6 +25,7 @@ namespace Marketplace.Data.Entities
             ProductId = productId;
             PromoCode = promoCode;
             DateTime = dateTime;
+            Status = TransactionStatus.Completed;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Marketplace
             marketplace.Users.Add(new Seller("ante", "ante@gmail.com"));
             marketplace.Users.Add(new Seller("jure", "jure@gmail.com"));
 
-            marketplace.Users.Add(new Customer("lovro", "lovro@gmail.com", 100.0));
+            marketplace.Users.Add(new Customer("lovro", "lovro@gmail.com", 10000.0));
             marketplace.Users.Add(new Customer("marko", "marko@gmail.com", 200.0));
 
             marketplace.Products.Add(

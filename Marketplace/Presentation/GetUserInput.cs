@@ -187,6 +187,7 @@ namespace Marketplace.Presentation
         {
             Console.Clear();
             Console.WriteLine("\n LOG IN\n\n");
+
             var email = GetExistingEmail(marketplace);
             if (email == null)
                 return null;

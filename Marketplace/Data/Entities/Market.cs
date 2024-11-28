@@ -11,7 +11,6 @@ namespace Marketplace.Data.Entities
         public List<User> Users { get; private set; }
         public List<Product> Products { get; private set; }
         public List<PromoCode> PromoCodes { get; private set; }
-        public List<Transaction> Transactions { get; private set; }
         public double ProvisionIncome { get; private set; }
         
 
@@ -20,7 +19,6 @@ namespace Marketplace.Data.Entities
             Users = new List<User>();
             Products = new List<Product>();
             PromoCodes = new List<PromoCode>();
-            Transactions = new List<Transaction>();
             ProvisionIncome = 0;
         }
 

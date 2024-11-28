@@ -121,7 +121,12 @@ namespace Marketplace.Presentation
         {   
             var profile = GetUserInput.LogInUser(marketplace);
             if(profile == null)
-                return 0;
+            {
+                Console.Clear();
+                Console.WriteLine("The user with these credentials does not exist. Please try again.\n\n Press any key to continue...");
+                Console.ReadKey();
+                return 1;
+            }
             if (profile is Customer)
                 while(DisplayCustomerAccount(profile as Customer, marketplace) != 0);
             else
@@ -172,7 +177,7 @@ namespace Marketplace.Presentation
             return 1;
         }
 
-        public int DisplayProfitInTimeInterval(Market marketplace, User seller)
+        public int DisplayProfitInTimeInterval(Market marketplace, User seller) // yet to implement
         {
             Console.Clear();
             Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
@@ -183,7 +188,29 @@ namespace Marketplace.Presentation
         public int DisplaySoldProductsByCategory(Market marketplace, User seller)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            var productCategory = GetUserInput.GetProductCategory();
+            Console.Clear();
+            Console.WriteLine("\n SOLD PRODUCTS LIST\n");
+
+            var selectedProducts = 
+                marketplace.Products
+                .Where(
+                    x => x.Seller == seller &&
+                    x.Category == productCategory && 
+                    x.Status == ProductStatus.SoldOut);
+
+            if (selectedProducts.Count() == 0)
+            {
+                Console.WriteLine("There is no products to display.\n\n Press any key to continue...");
+                Console.ReadKey();
+                return 0;
+            }
+
+            foreach (var product in selectedProducts)
+            {
+                Printer.PrintProduct(product);
+                Console.WriteLine();
+            }
             Console.ReadKey();
             return 0;
         }
@@ -191,7 +218,7 @@ namespace Marketplace.Presentation
         public int DisplayProfit(Market marketplace, User seller)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            Console.WriteLine($"\n YOUR PROFIT\n\n Your current profit is: {((Seller)seller).Profit}\n\n Press any key to continue...");
             Console.ReadKey();
             return 0;
         }
@@ -354,12 +381,48 @@ namespace Marketplace.Presentation
             }
         }
 
-        public int ReturnProduct(Market argument, User user)
+        public int ReturnProduct(Market marketplace, User user)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
-            Console.ReadKey();
-            return 0;
+            Console.WriteLine("\n RETURN PRODUCT\n");
+
+            var products = ((Customer)user).PurchasedProducts.ToList();
+
+            if (products.Count == 0)
+            {
+                Console.WriteLine(" There is no products to display.\n\n Press any key to continue...");
+                Console.ReadKey();
+                return 0;
+            }
+
+            for (var i = 0; i < products.Count; i++)
+                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n");
+
+            while (true)
+            {
+                Console.Write("\n Select a product to return or enter x to cancel: ");
+                string input = Console.ReadLine().Trim();
+
+                if (input.ToLower() == "x")
+                    return 0;
+
+                if (int.TryParse(input, out int selectedOption) && selectedOption > 0 && selectedOption <= products.Count)
+                {
+                    var selectedProduct = products[selectedOption - 1];
+
+                    TransactionManager.RevertTransaction(marketplace, TransactionManager.TransactionList.Find(x => x.ProductId == selectedProduct.GetProductId()));
+                    
+                    Console.WriteLine($"\nProduct '{selectedProduct.Name}' has been returned.\n\n Press any key to continue...");
+                    Console.ReadKey();
+
+                    return 0;
+                }
+                else
+                    Console.WriteLine("Invalid selection. Please try again.");
+
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
         }
 
         public int BuyProduct(Market marketplace, User user)
