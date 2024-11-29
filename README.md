@@ -1,1 +1,2 @@
-# Internship-4-OOP-2
+# Internship-4-MarketplaceApp
+To open: Marketplace.Presentation -> Marketplace.sln
