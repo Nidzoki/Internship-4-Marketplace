@@ -16,8 +16,9 @@ namespace Marketplace.Data.Entities
         public PromoCode PromoCode { get; set; }
         public DateTime DateTime { get; set; }
         public TransactionStatus Status { get; set; }
+        public double MoneyPaidAtPurchase { get; set; }
 
-        public Transaction(Customer costumer, Seller seller, Guid productId, PromoCode promoCode, DateTime dateTime)
+        public Transaction(Customer costumer, Seller seller, Guid productId, PromoCode promoCode, DateTime dateTime, double money)
         {
             Id = Guid.NewGuid();
             Costumer = costumer;
@@ -26,6 +27,7 @@ namespace Marketplace.Data.Entities
             PromoCode = promoCode;
             DateTime = dateTime;
             Status = TransactionStatus.Completed;
+            MoneyPaidAtPurchase = money;
         }
     }
 }

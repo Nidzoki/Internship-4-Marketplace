@@ -19,7 +19,7 @@ namespace Marketplace.Domain.TransactionManager
             if (customer.Balance < product.Price * (1 - discount))
                 return false;
 
-            TransactionList.Add(new Transaction(customer, product.Seller, product.GetProductId(), promoCode, DateTime.Now));
+            TransactionList.Add(new Transaction(customer, product.Seller, product.GetProductId(), promoCode, DateTime.Now, product.Price * (1 - discount)));
 
             customer.PurchasedProducts.Add(product);
             customer.Balance -= product.Price * (1 - discount);

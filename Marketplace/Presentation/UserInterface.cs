@@ -246,22 +246,22 @@ namespace Marketplace.Presentation
             var completedTransactionProductIds = 
                 selectedTransactions
                 .Where(x => x.Status == TransactionStatus.Completed)
-                .Select(x => Tuple.Create(x.ProductId, x.PromoCode));
+                .Select(x => x.ProductId);
 
             var revertedTransactionProductIds = 
                 selectedTransactions
                 .Where(x => x.Status == TransactionStatus.Reverted)
-                .Select(x => Tuple.Create(x.ProductId, x.PromoCode));
+                .Select(x => x.ProductId);
 
             var profit = 0.0;
 
-            foreach (var product in completedTransactionProductIds )
-                profit += 0.95 * marketplace.Products.Find(x => x.GetProductId() == product.Item1).Price * (product.Item2 != null ? 1 - product.Item2.Discount : 1);
+            foreach (var productId in completedTransactionProductIds )
+                profit += 0.95 * TransactionManager.TransactionList.Find(x => x.ProductId == productId).MoneyPaidAtPurchase;
 
-            foreach (var product in revertedTransactionProductIds)
-                profit += 0.15 * marketplace.Products.Find(x => x.GetProductId() == product.Item1).Price * (product.Item2 != null ? 1 - product.Item2.Discount : 1);
+            foreach (var productId in revertedTransactionProductIds)
+                profit += 0.15 * TransactionManager.TransactionList.Find(x => x.ProductId == productId).MoneyPaidAtPurchase;
 
-            Console.WriteLine($" \n PROFITT IN SELECTED INTERVAL\n\n" +
+            Console.WriteLine($" \n PROFIT IN SELECTED INTERVAL\n\n" +
                 $" Start date: {interval.Start:dd-MM-yyyy}\n" +
                 $" End date: {interval.End:dd-MM-yyyy}\n\n" +
                 $" Your profit: {Math.Round(profit, 2)}\n\n Press any key to continue...");
