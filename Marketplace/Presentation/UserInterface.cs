@@ -177,11 +177,45 @@ namespace Marketplace.Presentation
             return 1;
         }
 
-        public int DisplayProfitInTimeInterval(Market marketplace, User seller) // yet to implement
+        public int DisplayProfitInTimeInterval(Market marketplace, User seller)
         {
             Console.Clear();
-            Console.WriteLine("\n This isn't implemented yet.\n \n Press any key to continue...");
+            
+            var interval = GetUserInput.GetTimeInterval();
+
+            var selectedTransactions = 
+                TransactionManager.TransactionList
+                .Where
+                (
+                    x => x.Seller == seller 
+                    && interval.CheckIfInInterval(x.DateTime)
+                )
+                .ToList();
+
+            var completedTransactionProductIds = 
+                selectedTransactions
+                .Where(x => x.Status == TransactionStatus.Completed)
+                .Select(x => x.ProductId);
+
+            var revertedTransactionProductIds = 
+                selectedTransactions
+                .Where(x => x.Status == TransactionStatus.Reverted)
+                .Select(x => x.ProductId);
+
+            var profit = 0.0;
+
+            foreach ( var productId in completedTransactionProductIds )
+                profit += 0.95 * marketplace.Products.Find(x => x.GetProductId() == productId).Price;
+
+            foreach (var productId in revertedTransactionProductIds)
+                profit += 0.15 * marketplace.Products.Find(x => x.GetProductId() == productId).Price;
+
+            Console.WriteLine($" \n PROFITT IN SELECTED INTERVAL\n\n" +
+                $" Start date: {interval.Start:dd-MM-yyyy}\n" +
+                $" End date: {interval.End:dd-MM-yyyy}\n\n" +
+                $" Your profit: {Math.Round(profit, 2)}");
             Console.ReadKey();
+
             return 0;
         }
 

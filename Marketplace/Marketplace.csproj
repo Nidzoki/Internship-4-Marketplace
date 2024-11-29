@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Entities\Customer.cs" />
+    <Compile Include="Data\Entities\Interval.cs" />
     <Compile Include="Data\Entities\Market.cs" />
     <Compile Include="Data\Entities\Product.cs" />
     <Compile Include="Data\Entities\PromoCode.cs" />

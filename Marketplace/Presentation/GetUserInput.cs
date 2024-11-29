@@ -292,5 +292,52 @@ namespace Marketplace.Presentation
                 Console.ReadKey();
             }
         }
+
+        // TIME INTERVAL SECTION
+
+        public static Interval GetTimeInterval() 
+        { 
+            DateTime startDate = DateTime.Now, endDate = DateTime.Now;
+
+            bool askForStartDate = true, askForEndDate = true;
+
+            while (askForStartDate) 
+            { 
+                Console.Write(" Enter the start date (yyyy-MM-dd) or x to cancel: ");
+                var input = Console.ReadLine().Trim();
+
+                if (input.ToLower() == "x") 
+                    return null;
+
+                if (DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out startDate)) 
+                    askForStartDate = false;
+                else 
+                { 
+                    Console.WriteLine("\n ERROR! Start date not valid. Please enter a valid date in the format yyyy-MM-dd.");
+                    Console.WriteLine("\n Press any key to continue...");
+                    Console.ReadKey(); 
+                }
+            } 
+            
+            while (askForEndDate) 
+            { 
+                Console.Write(" Enter the end date (yyyy-MM-dd) or x to cancel: ");
+                var input = Console.ReadLine().Trim();
+                    
+                if (input.ToLower() == "x")
+                        return null;
+
+                if (DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out endDate) && endDate >= startDate)
+                    askForEndDate = false;
+                else 
+                { 
+                    Console.WriteLine("\n ERROR! End date not valid or earlier than start date. Please enter a valid date in the format yyyy-MM-dd that is after the start date.");
+                    Console.WriteLine("\n Press any key to continue...");
+                    Console.ReadKey();
+                } 
+            } 
+            return new Interval(startDate, endDate); 
+        }
+
     }
 }
