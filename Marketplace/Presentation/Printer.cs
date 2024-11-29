@@ -61,17 +61,16 @@ namespace Marketplace.Presentation
         public static void PrintProduct(Product product)
         {
             Console.WriteLine($" Name: {product.Name}" +
-                $"\n\tID: {product.GetProductId()}" +
                 $"\n\tCategory: {product.Category}" +
                 $"\n\tStatus: {product.Status}" +
                 $"\n\tPrice: {product.Price}" +
                 $"\n\tDescription: {product.Description}" +
-                $"\n\tReviews: {product.GetRating()} ({product.Reviews.Count})");
+                $"\n\tReviews: {product.GetRating()}/10 ({product.Reviews.Count})");
         }
 
         public static void PrintProductShort(Product product)
         {
-            Console.WriteLine($" \tName: {product.Name} | Category: {product.Category} | Seller: {product.Seller.Username}\n");
+            Console.WriteLine($" \tName: {product.Name} | Category: {product.Category} | Seller: {product.Seller.Username} | Price: {product.Price}\n");
         }
     }
 }

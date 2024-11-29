@@ -528,7 +528,7 @@ namespace Marketplace.Presentation
             }
 
             for (var i = 0; i < products.Count(); i++)
-                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n");
+                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n\t Price: {products[i].Price}\n");
 
             while (true)
             {
