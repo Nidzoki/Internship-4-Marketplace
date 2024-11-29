@@ -213,7 +213,7 @@ namespace Marketplace.Presentation
             Console.WriteLine($" \n PROFITT IN SELECTED INTERVAL\n\n" +
                 $" Start date: {interval.Start:dd-MM-yyyy}\n" +
                 $" End date: {interval.End:dd-MM-yyyy}\n\n" +
-                $" Your profit: {Math.Round(profit, 2)}");
+                $" Your profit: {Math.Round(profit, 2)}\n\n Press any key to continue...");
             Console.ReadKey();
 
             return 0;
@@ -245,6 +245,8 @@ namespace Marketplace.Presentation
                 Printer.PrintProduct(product);
                 Console.WriteLine();
             }
+
+            Console.WriteLine("\n Press any key to continue...");
             Console.ReadKey();
             return 0;
         }
@@ -266,6 +268,7 @@ namespace Marketplace.Presentation
                 Printer.PrintProduct(product);
                 Console.WriteLine();
             }
+            Console.WriteLine("\n Press any key to continue...");
             Console.ReadKey();
             return 0;
         }
@@ -384,7 +387,7 @@ namespace Marketplace.Presentation
 
             if (products.Count == 0)
             {
-                Console.WriteLine(" There are no available products to add to favorites.");
+                Console.WriteLine(" There are no available products to add to favorites.\n\n Press any key to continue...");
                 Console.ReadKey();
                 return 0;
             }
@@ -468,7 +471,7 @@ namespace Marketplace.Presentation
 
             if (products.Count == 0)
             {
-                Console.WriteLine(" There are no available products to buy.");
+                Console.WriteLine(" There are no available products to buy.\n\n Press any key to continue...");
                 Console.ReadKey();
                 return 0;
             }
@@ -496,10 +499,8 @@ namespace Marketplace.Presentation
                     Console.ReadKey();
                     return 0;
                 }
-                else
-                    Console.WriteLine("Invalid selection. Please try again.");
 
-                Console.WriteLine("Press any key to continue...");
+                Console.WriteLine("Invalid selection. Please try again.\n\n Press any key to continue...");
                 Console.ReadKey();
             }
         }
@@ -512,6 +513,7 @@ namespace Marketplace.Presentation
             {
                 Printer.PrintProduct(product);
             }
+            Console.WriteLine("\n Press any key to continue...");
             Console.ReadKey();
             return 0;
         }
