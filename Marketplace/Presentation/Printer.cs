@@ -39,7 +39,8 @@ namespace Marketplace.Presentation
                 $"\n 3. Display profit" +
                 $"\n 4. Display sold products by category" +
                 $"\n 5. Display profit in selected time interval" +
-                $"\n 6. Log out");
+                $"\n 6. Edit product price" +
+                $"\n 7. Log out");
             Console.Write("\n Your input: ");
         }
 

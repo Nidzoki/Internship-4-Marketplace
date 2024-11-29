@@ -14,19 +14,21 @@ namespace Marketplace.Domain.TransactionManager
 
         public static bool CreateTransaction(Market marketplace, Customer customer, Product product, PromoCode promoCode)
         {
-            if (customer.Balance < product.Price)
+            var discount = marketplace.PromoCodes.Contains(promoCode) && promoCode.IsValid() ? promoCode.Discount : 0.0;
+            
+            if (customer.Balance < product.Price * (1 - discount))
                 return false;
 
             TransactionList.Add(new Transaction(customer, product.Seller, product.GetProductId(), promoCode, DateTime.Now));
 
             customer.PurchasedProducts.Add(product);
-            customer.Balance -= product.Price;
+            customer.Balance -= product.Price * (1 - discount);
 
-            marketplace.TakeTransactionProvision(product.Price * 0.05);
+            marketplace.TakeTransactionProvision(product.Price * (1 - discount) * 0.05);
 
             product.Status = ProductStatus.SoldOut;
 
-            ((Seller)marketplace.Users.Find(x => x.Username == product.Seller.Username)).GetProfit(0.95 * product.Price);
+            ((Seller)marketplace.Users.Find(x => x.Username == product.Seller.Username)).GetProfit(0.95 * product.Price * (1 - discount));
 
             return true;
         }
@@ -37,13 +39,14 @@ namespace Marketplace.Domain.TransactionManager
             var customer = (Customer)marketplace.Users.Find(x => x.Username == transaction.Costumer.Username);
             var seller = (Seller)marketplace.Users.Find(x => x.Username == transaction.Seller.Username);
             var product = marketplace.Products.Find(x => x.GetProductId() == transaction.ProductId);
+            var discount = transaction.PromoCode != null ? transaction.PromoCode.Discount : 0.0;
 
             transactionToRevert.Status = TransactionStatus.Reverted;
 
             customer.PurchasedProducts.Remove(marketplace.Products.Find(x => x.GetProductId() == transaction.ProductId));
-            customer.Balance += 0.8 * marketplace.Products.Find(x => x.GetProductId() == transaction.ProductId).Price;
+            customer.Balance += 0.8 * marketplace.Products.Find(x => x.GetProductId() == transaction.ProductId).Price * (1 - discount);
             
-            seller.GetProfit(-0.8 * marketplace.Products.Find(x => x.GetProductId() == transaction.ProductId).Price);
+            seller.GetProfit(-0.8 * marketplace.Products.Find(x => x.GetProductId() == transaction.ProductId).Price * (1 - discount));
 
             product.Status = ProductStatus.Available;
         }
