@@ -33,9 +33,16 @@ namespace Marketplace
                 new Product("čokolada", "mliječna čokolada", 2.50, (Seller)marketplace.Users.Find(x => x.Username == "ante"), ProductCategory.Food));
 
             marketplace.Products.Add(
-                new Product("Ryzen 5 7950x", "procesor", 500, (Seller)marketplace.Users.Find(x => x.Username == "jure"), ProductCategory.Electronics));
+                new Product("Ryzen 5 7950x", "procesor", 1000, (Seller)marketplace.Users.Find(x => x.Username == "jure"), ProductCategory.Electronics));
             marketplace.Products.Add(
                 new Product("rtx 4090ti", "grafička kartica", 1038, (Seller)marketplace.Users.Find(x => x.Username == "jure"), ProductCategory.Electronics));
+
+            marketplace.PromoCodes.Add(
+                new PromoCode("VALID_ELECTRONICS", 0.1, ProductCategory.Electronics, DateTime.Now.AddDays(1)));
+            marketplace.PromoCodes.Add(
+                new PromoCode("INVALID_ELECTRONICS", 0.1, ProductCategory.Electronics, DateTime.Now.AddDays(-1)));
+
+            // START APP
 
             var quit = false;
             while (!quit)

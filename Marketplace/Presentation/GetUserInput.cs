@@ -122,7 +122,7 @@ namespace Marketplace.Presentation
             }
             return mail;
         }
-        
+
         private static string GetExistingUsername(Market marketplace)
         {
             var username = string.Empty;
@@ -243,7 +243,7 @@ namespace Marketplace.Presentation
             Console.Write("\n Enter product description or x to cancel: ");
             var productDescription = Console.ReadLine().Trim();
 
-            return productDescription == "x" ? null: productDescription;
+            return productDescription == "x" ? null : productDescription;
         }
 
         public static double GetNewProductPrice()
@@ -295,49 +295,56 @@ namespace Marketplace.Presentation
 
         // TIME INTERVAL SECTION
 
-        public static Interval GetTimeInterval() 
-        { 
+        public static Interval GetTimeInterval()
+        {
             DateTime startDate = DateTime.Now, endDate = DateTime.Now;
 
             bool askForStartDate = true, askForEndDate = true;
 
-            while (askForStartDate) 
-            { 
+            while (askForStartDate)
+            {
                 Console.Write(" Enter the start date (yyyy-MM-dd) or x to cancel: ");
                 var input = Console.ReadLine().Trim();
 
-                if (input.ToLower() == "x") 
+                if (input.ToLower() == "x")
                     return null;
 
-                if (DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out startDate)) 
+                if (DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out startDate))
                     askForStartDate = false;
-                else 
-                { 
+                else
+                {
                     Console.WriteLine("\n ERROR! Start date not valid. Please enter a valid date in the format yyyy-MM-dd.");
                     Console.WriteLine("\n Press any key to continue...");
-                    Console.ReadKey(); 
+                    Console.ReadKey();
                 }
-            } 
-            
-            while (askForEndDate) 
-            { 
+            }
+
+            while (askForEndDate)
+            {
                 Console.Write(" Enter the end date (yyyy-MM-dd) or x to cancel: ");
                 var input = Console.ReadLine().Trim();
-                    
+
                 if (input.ToLower() == "x")
-                        return null;
+                    return null;
 
                 if (DateTime.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out endDate) && endDate >= startDate)
                     askForEndDate = false;
-                else 
-                { 
+                else
+                {
                     Console.WriteLine("\n ERROR! End date not valid or earlier than start date. Please enter a valid date in the format yyyy-MM-dd that is after the start date.");
                     Console.WriteLine("\n Press any key to continue...");
                     Console.ReadKey();
-                } 
-            } 
-            return new Interval(startDate, endDate); 
+                }
+            }
+            return new Interval(startDate, endDate);
         }
 
+        // PROMO CODE SECTION
+
+        public static string GetPromoCode()
+        {
+            Console.Write(" Enter promo code or leave empty: ");
+            return Console.ReadLine().Trim();
+        }
     }
 }

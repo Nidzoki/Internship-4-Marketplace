@@ -54,6 +54,7 @@
     <Compile Include="Data\Enums\ProductCategory.cs" />
     <Compile Include="Data\Enums\ProductStatus.cs" />
     <Compile Include="Data\Enums\TransactionStatus.cs" />
+    <Compile Include="Domain\ReviewGenerator\ReviewGenerator.cs" />
     <Compile Include="Domain\TransactionManager\TransactionManager.cs" />
     <Compile Include="Domain\Validation\ValidateInput.cs" />
     <Compile Include="Presentation\GetUserInput.cs" />

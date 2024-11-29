@@ -1,4 +1,5 @@
 ﻿using Marketplace.Data.Enums;
+using Marketplace.Domain.ReviewGenerator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Marketplace.Data.Entities
             Status = ProductStatus.Available;
             Seller = seller;
             Category = category;
-            Reviews = new List<int>();
+            Reviews = ReviewGenerator.GetReviews();
         }
 
         public Guid GetProductId() => Id;

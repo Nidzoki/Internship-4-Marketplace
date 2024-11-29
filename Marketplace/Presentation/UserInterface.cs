@@ -145,7 +145,8 @@ namespace Marketplace.Presentation
                 {"2", DisplaySellerProducts },
                 {"3", DisplayProfit },
                 {"4", DisplaySoldProductsByCategory },
-                {"5", DisplayProfitInTimeInterval }
+                {"5", DisplayProfitInTimeInterval },
+                {"6", EditProductPrice }
             };
 
             var askForOption = true;
@@ -156,7 +157,7 @@ namespace Marketplace.Presentation
                 Printer.PrintSellerView(profile.Username);
                 option = Console.ReadLine().Trim();
 
-                if (option == "6")
+                if (option == "7")
                     return 0;
 
                 if (!sellerAccountOptionHandler.Keys.Contains(option))
@@ -175,6 +176,56 @@ namespace Marketplace.Presentation
             while (runChosenMenu);
 
             return 1;
+        }
+
+        public int EditProductPrice(Market marketplace, User user)
+        {
+            Console.Clear();
+            Console.WriteLine("\n EDIT PRODUCT PRICE\n\n");
+
+            var products = 
+                marketplace.Products
+                .Where
+                (
+                    x => x.Status == ProductStatus.Available
+                    && x.Seller.Username == user.Username
+                )
+                .ToList();
+
+            if (products.Count == 0)
+            {
+                Console.WriteLine(" There are no available products to add to favorites.\n\n Press any key to continue...");
+                Console.ReadKey();
+                return 0;
+            }
+
+            for (var i = 0; i < products.Count(); i++)
+                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Price: {products[i].Price}\n");
+
+            while (true)
+            {
+                Console.Write("\n Select an option to edit price or enter x to cancel: ");
+                string input = Console.ReadLine().Trim();
+
+                if (input.ToLower() == "x")
+                    return 0;
+
+                if (int.TryParse(input, out int selectedOption) && selectedOption > 0 && selectedOption <= products.Count)
+                {
+                    var selectedProduct = products[selectedOption - 1];
+                    var newPrice = GetUserInput.GetNewProductPrice();
+
+                    if (newPrice < 0)
+                        return 0;
+
+                    marketplace.Products.Find(x => x == selectedProduct).Price = newPrice;
+                    Console.WriteLine($"\nProduct '{selectedProduct.Name}' price has been changed to {newPrice}.\n\n Press any key to continue...");
+                    return 0;
+                }
+
+                Console.WriteLine("Invalid selection. Please try again.\n\n Press any key to continue...");
+                Console.ReadKey();
+            }
         }
 
         public int DisplayProfitInTimeInterval(Market marketplace, User seller)
@@ -204,13 +255,13 @@ namespace Marketplace.Presentation
 
             var profit = 0.0;
 
-            foreach ( var productId in completedTransactionProductIds )
-                profit += 0.95 * marketplace.Products.Find(x => x.GetProductId() == productId).Price;
+            foreach (var productId in completedTransactionProductIds )
+                profit += 0.95 * TransactionManager.TransactionList.Find(x => x.ProductId == productId).MoneyPaidAtPurchase;
 
             foreach (var productId in revertedTransactionProductIds)
-                profit += 0.15 * marketplace.Products.Find(x => x.GetProductId() == productId).Price;
+                profit += 0.15 * TransactionManager.TransactionList.Find(x => x.ProductId == productId).MoneyPaidAtPurchase;
 
-            Console.WriteLine($" \n PROFITT IN SELECTED INTERVAL\n\n" +
+            Console.WriteLine($" \n PROFIT IN SELECTED INTERVAL\n\n" +
                 $" Start date: {interval.Start:dd-MM-yyyy}\n" +
                 $" End date: {interval.End:dd-MM-yyyy}\n\n" +
                 $" Your profit: {Math.Round(profit, 2)}\n\n Press any key to continue...");
@@ -336,7 +387,7 @@ namespace Marketplace.Presentation
             return 1;
         }
 
-        public int DisplayFavorites(Market argument, User user)
+        public int DisplayFavorites(Market marketplace, User user)
         {
             Console.Clear();
             Console.WriteLine("\n FAVORITE PRODUCTS\n");
@@ -357,7 +408,7 @@ namespace Marketplace.Presentation
             return 0;
         }
 
-        public int DisplayShoppingHistory(Market argument, User user)
+        public int DisplayShoppingHistory(Market marketplace, User user)
         {
             Console.Clear();
             Console.WriteLine("\n SHOPPING HISTORY\n");
@@ -477,7 +528,7 @@ namespace Marketplace.Presentation
             }
 
             for (var i = 0; i < products.Count(); i++)
-                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n");
+                Console.WriteLine($" Option:{i + 1}\n\t Name: {products[i].Name}\n\t Category: {products[i].Category}\n\t Seller: {products[i].Seller.Username}\n\t Price: {products[i].Price}\n");
 
             while (true)
             {
@@ -490,8 +541,10 @@ namespace Marketplace.Presentation
                 if (int.TryParse(input, out int selectedOption) && selectedOption > 0 && selectedOption <= products.Count)
                 {
                     var selectedProduct = products[selectedOption - 1];
+                    var promocode = GetUserInput.GetPromoCode();
+                    var promocodeData = marketplace.PromoCodes.Find(x => x.Code == promocode);
 
-                    if (TransactionManager.CreateTransaction(marketplace, (Customer)user, selectedProduct, new PromoCode("", 10, ProductCategory.Food, DateTime.Now)))
+                    if (TransactionManager.CreateTransaction(marketplace, (Customer)user, selectedProduct, promocodeData))
                         Console.WriteLine($"\nProduct '{selectedProduct.Name}' has been purchased.\n\n Press any key to continue...");
                     else
                         Console.WriteLine($" Insufficient balance to buy this product!\n\n Press any key to continue...");
