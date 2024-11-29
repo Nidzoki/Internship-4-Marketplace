@@ -1,0 +1,7 @@
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\obj\Debug\Marketplace.Data.csproj.AssemblyReference.cache
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\obj\Debug\Marketplace.Data.csproj.CoreCompileInputs.cache
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\bin\Debug\Marketplace.Data.exe.config
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\bin\Debug\Marketplace.Data.exe
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\bin\Debug\Marketplace.Data.pdb
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\obj\Debug\Marketplace.Data.exe
+C:\Users\nikol\Desktop\DUMP zadaca upgradeana arhitektura\Marketplace.Data\obj\Debug\Marketplace.Data.pdb
